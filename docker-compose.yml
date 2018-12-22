@@ -14,6 +14,8 @@ services:
     environment:
       DOCUMIZEDBTYPE: "mariadb"
       DOCUMIZEDB: "root:password@tcp(mariadb:3306)/documize"
+#     DOCUMIZEDBTYPE: "postgresql"
+#     DOCUMIZEDB: "host=postgres port=5432 dbname=documize user=documize password=documize sslmode=disable"
       DOCUMIZESALT: "iepuu1OhBie2ieneequ6ushohLo8pieh"
       DOCUMIZEPORT: 8080
     networks:
@@ -23,6 +25,7 @@ services:
     - 8080:8080
     depends_on:
     - mariadb
+#   - postgres
 
   mariadb:
     image: mariadb
@@ -33,3 +36,12 @@ services:
     environment:
       MYSQL_DATABASE: documize
       MYSQL_ROOT_PASSWORD: password
+
+# postgres:
+#   image: postgres:11-alpine
+#   restart: always
+#   environment:
+#     POSTGRES_USER: documize
+#     POSTGRES_PASSWORD: documize
+#   networks:
+#     - default
