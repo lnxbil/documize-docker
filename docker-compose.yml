@@ -1,0 +1,35 @@
+version: "3"
+
+networks:
+  default:
+  documize:
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        version: 1.76.2
+    image: documize
+    environment:
+      DOCUMIZEDBTYPE: "mariadb"
+      DOCUMIZEDB: "root:password@tcp(mariadb:3306)/documize"
+      DOCUMIZESALT: "iepuu1OhBie2ieneequ6ushohLo8pieh"
+      DOCUMIZEPORT: 8080
+    networks:
+      - documize
+      - default
+    ports:
+    - 8080:8080
+    depends_on:
+    - mariadb
+
+  mariadb:
+    image: mariadb
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    networks:
+    - documize
+    environment:
+      MYSQL_DATABASE: documize
+      MYSQL_ROOT_PASSWORD: password
